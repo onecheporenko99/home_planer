@@ -1,0 +1,18 @@
+// Dimensions in metres. Ports use normalized local coordinates, rotated with the body.
+const water=[{id:'cold',name:'Холодная вода',x:-.22,y:-.5,system:'cold'},{id:'hot',name:'Горячая вода',x:.22,y:-.5,system:'hot'},{id:'drain',name:'Слив',x:0,y:.25,system:'drain'}];
+const electric=[{id:'power',name:'Электропитание',x:0,y:0,system:'electric'}];
+const fixture=(kind,name,width,depth,symbol,ports=water,category='plumbing')=>({kind,name,width,depth,symbol,ports,category});
+export const fixtures=[
+ fixture('bath-straight','Прямая ванна',1.7,.75,'bath'),fixture('bath-corner','Угловая ванна',1.4,1.4,'corner-bath'),fixture('bath-round','Круглая ванна',1.6,1.6,'round-bath'),
+ fixture('shower-box','Прямоугольный душ',.9,.9,'shower'),fixture('shower-corner','Угловой душ',.9,.9,'corner-shower'),fixture('shower-round','Круглый душ',1,1,'round-shower'),
+ fixture('toilet-floor','Напольный унитаз',.4,.7,'toilet',[water[0],water[2]]),fixture('toilet-wall','Подвесной унитаз',.38,.55,'wall-toilet',[water[0],water[2]]),
+ fixture('sink','Раковина',.6,.45,'sink'),fixture('sink-corner','Угловая раковина',.55,.55,'corner-sink'),
+ fixture('washer','Стиральная машина',.6,.6,'washer',[water[0],water[2],...electric]),fixture('dishwasher','Посудомоечная машина',.6,.6,'dishwasher',[water[0],water[2],...electric]),
+ fixture('heater','Водонагреватель',.5,.5,'heater',[water[0],water[1],...electric]),fixture('mixer','Смеситель',.2,.12,'mixer',water.slice(0,2)),
+ fixture('valve','Запорный кран',.15,.15,'valve',[{id:'in',name:'Вход',x:-.5,y:0,system:'any'},{id:'out',name:'Выход',x:.5,y:0,system:'any'}]),fixture('tap','Водоразборная точка',.18,.18,'tap',[{id:'water',name:'Вода',x:0,y:0,system:'any'}]),fixture('connector','Точка подключения',.15,.15,'connector',[{id:'water',name:'Подключение',x:0,y:0,system:'any'}]),
+ ...[['socket-single','Одиночная розетка','socket'],['socket-double','Двойная розетка','double-socket'],['socket-waterproof','Влагозащищённая розетка','waterproof-socket'],['switch-single','Одноклавишный выключатель','switch'],['switch-double','Двухклавишный выключатель','double-switch'],['switch-pass','Проходной выключатель','pass-switch']].map(([k,n,s])=>fixture(k,n,.15,.15,s,electric,'electrical')),
+ fixture('light-ceiling','Потолочный светильник',.5,.5,'light',electric,'electrical'),fixture('light-spot','Точечный светильник',.12,.12,'spot',electric,'electrical'),fixture('light-wall','Настенный светильник',.25,.15,'wall-light',electric,'electrical'),fixture('light-outdoor','Наружный светильник',.3,.3,'outdoor-light',electric,'electrical'),fixture('light-linear','Линейное освещение',1.2,.1,'linear-light',electric,'electrical')
+];
+export const routeKinds=[{kind:'cold',name:'Холодная вода',type:'pipe',color:'#337e9b',dash:''},{kind:'hot',name:'Горячая вода',type:'pipe',color:'#ba6545',dash:'8 3'},{kind:'drain',name:'Канализация',type:'pipe',color:'#655d53',dash:'10 3 2 3'},{kind:'heating',name:'Отопление',type:'pipe',color:'#aa7739',dash:'5 3'},{kind:'other',name:'Прочая труба',type:'pipe',color:'#58766d',dash:'2 3'},{kind:'main',name:'Основной провод',type:'wire',color:'#986b16',dash:''},{kind:'secondary',name:'Второстепенный провод',type:'wire',color:'#67727d',dash:'6 4'}];
+export const fixtureDefinition=kind=>fixtures.find(f=>f.kind===kind);
+export const isRoute=o=>o.type==='pipe'||o.type==='wire'||o.type==='path'&&o.shape!=='polygon';

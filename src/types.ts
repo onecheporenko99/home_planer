@@ -1,0 +1,12 @@
+export type Point = {x:number; y:number};
+export type Node = Point & {id:string};
+export type EdgeLock = {startId:string;endId:string;length?:number;angle?:number};
+export type Connection = {nodeId:string;fixtureId:string;portId:string};
+export type Layer = {id:string;name:string;visible:boolean;locked:boolean};
+export type PlanObject = {id:string;layerId?:string;type:'outline'|'plot'|'building'|'wall'|'fixture'|'pipe'|'wire'|'path';name:string;vertexIds:string[];shape?:'rectangle'|'polygon';buildingKind?:'house'|'garage'|'shed'|'gazebo'|'other';buildingId?:string;thickness?:number;height?:number;wallKind?:'external'|'internal';locks?:EdgeLock[];kind?:string;width?:number;depth?:number;rotation?:number;symbolSize?:number;mirror?:boolean;diameter?:number;color?:string;group?:string;material?:string;connections?:Connection[];wallMount?:{wallId:string;offset:number;side:1|-1}};
+export type Opening = {id:string;layerId?:string;type:'door'|'window';name:string;wallId:string;width:number;offset:number;anchor:'start'|'end';height:number;sill?:number;hinge:'start'|'end';side:1|-1;kind:'single'|'double'|'sliding'|'standard'|'panoramic'};
+export type SnapSettings = {locked?:boolean;grid:boolean;nodes:boolean;midpoints:boolean;intersections:boolean;walls:boolean;guides:boolean;extensions:boolean;centers:boolean;angleStep:number;relation:'none'|'parallel'|'perpendicular';tolerance:number};
+export type Project = {id:string;name:string;schemaVersion:2;revision:number;createdAt:string;updatedAt:string;settings:{unit:'m'|'cm'|'mm';grid:number;snap:number};layers:Layer[];nodes:Record<string,Node>;objects:PlanObject[];openings:Opening[]};
+export type Camera = {x:number;y:number;scale:number};
+export type Tool = 'select'|'hand'|'rectangle'|'polygon'|'wall'|'opening'|'fixture'|'route'|'measure';
+export type Creation = {type:'plot'|'building'|'wall'|'door'|'window'|'fixture'|'pipe'|'wire'|'path';kind?:string;openingKind?:Opening['kind'];name:string;buildingKind?:PlanObject['buildingKind'];wallKind?:PlanObject['wallKind'];thickness:number};

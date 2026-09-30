@@ -1,0 +1,111 @@
+{
+  "id": "84ed9e35-8aff-40cd-ab1d-8764a54df017",
+  "name": "Учебный пример",
+  "schemaVersion": 2,
+  "revision": 6,
+  "createdAt": "2026-09-30T14:01:50.645Z",
+  "updatedAt": "2026-09-30T14:10:34.071Z",
+  "settings": {
+    "unit": "m",
+    "grid": 1,
+    "snap": 0.1
+  },
+  "nodes": {
+    "4a212781-e9c8-46f0-b44a-ac2347f408f5": {
+      "x": 0,
+      "y": 0,
+      "id": "4a212781-e9c8-46f0-b44a-ac2347f408f5"
+    },
+    "82605604-7bf2-4551-8c9e-a94a1d09b779": {
+      "x": 30,
+      "y": 0,
+      "id": "82605604-7bf2-4551-8c9e-a94a1d09b779"
+    },
+    "d650ff7d-835a-40c2-b4b8-d8c155caa98b": {
+      "x": 30,
+      "y": 20,
+      "id": "d650ff7d-835a-40c2-b4b8-d8c155caa98b"
+    },
+    "26fb3d5a-73d4-4d7a-b3de-3ab9f9798950": {
+      "x": 0,
+      "y": 20,
+      "id": "26fb3d5a-73d4-4d7a-b3de-3ab9f9798950"
+    },
+    "889df2b2-7a64-408a-a239-1b540b3bd504": {
+      "x": 4,
+      "y": 4,
+      "id": "889df2b2-7a64-408a-a239-1b540b3bd504"
+    },
+    "88d40a43-af8d-43d9-9463-04c31fb160d9": {
+      "x": 16,
+      "y": 4,
+      "id": "88d40a43-af8d-43d9-9463-04c31fb160d9"
+    },
+    "6e178183-8dea-44c8-981c-678464fe4ef2": {
+      "x": 16,
+      "y": 12,
+      "id": "6e178183-8dea-44c8-981c-678464fe4ef2"
+    },
+    "648afa3a-490c-41b2-a06f-ebaec2079a73": {
+      "x": 4,
+      "y": 12,
+      "id": "648afa3a-490c-41b2-a06f-ebaec2079a73"
+    },
+    "5185bd66-2276-4658-9994-5ad95763f7dd": {
+      "x": 18,
+      "y": 5,
+      "id": "5185bd66-2276-4658-9994-5ad95763f7dd"
+    },
+    "cf4d5b36-4ff6-400f-980d-579ab1120aeb": {
+      "x": 23,
+      "y": 5,
+      "id": "cf4d5b36-4ff6-400f-980d-579ab1120aeb"
+    }
+  },
+  "objects": [
+    {
+      "id": "a2715708-01e1-44bc-ae0c-4f6023a6c53b",
+      "type": "plot",
+      "name": "Участок",
+      "vertexIds": [
+        "4a212781-e9c8-46f0-b44a-ac2347f408f5",
+        "82605604-7bf2-4551-8c9e-a94a1d09b779",
+        "d650ff7d-835a-40c2-b4b8-d8c155caa98b",
+        "26fb3d5a-73d4-4d7a-b3de-3ab9f9798950"
+      ],
+      "shape": "rectangle"
+    },
+    {
+      "id": "54c010b3-825b-4b51-9966-0631b2974f6e",
+      "type": "building",
+      "name": "Дом",
+      "vertexIds": [
+        "889df2b2-7a64-408a-a239-1b540b3bd504",
+        "88d40a43-af8d-43d9-9463-04c31fb160d9",
+        "6e178183-8dea-44c8-981c-678464fe4ef2",
+        "648afa3a-490c-41b2-a06f-ebaec2079a73"
+      ],
+      "shape": "rectangle",
+      "buildingKind": "house"
+    },
+    {
+      "id": "274dc9aa-0555-4040-8c82-8da3f4fdd794",
+      "type": "wall",
+      "name": "Внешняя стена 1",
+      "vertexIds": [
+        "5185bd66-2276-4658-9994-5ad95763f7dd",
+        "cf4d5b36-4ff6-400f-980d-579ab1120aeb"
+      ],
+      "thickness": 0.2,
+      "height": 2.8,
+      "wallKind": "external",
+      "locks": [
+        {
+          "startId": "5185bd66-2276-4658-9994-5ad95763f7dd",
+          "endId": "cf4d5b36-4ff6-400f-980d-579ab1120aeb",
+          "length": 5
+        }
+      ]
+    }
+  ]
+}

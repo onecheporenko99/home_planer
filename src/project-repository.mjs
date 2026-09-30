@@ -1,0 +1,15 @@
+import {validateProject} from './core.mjs';
+export class ProjectError extends Error {constructor(message,status=400){super(message);this.status=status}}
+export function remoteError(error){if(error?.details==='revision_conflict')return new ProjectError('Проект изменён на другом устройстве',409);return new ProjectError(error?.message??'Ошибка облачного сохранения',error?.code==='42501'?401:400)}
+export function localRepository(request=fetch){
+ const call=async(path,options)=>{const r=await request(path,options);let data;try{data=await r.json()}catch{throw new ProjectError('Сервер проектов недоступен',r.status)}if(!r.ok)throw new ProjectError(data.error??'Ошибка сервера',r.status);return data};
+ return {list:()=>call('/api/projects'),get:async id=>validateProject(await call('/api/projects/'+encodeURIComponent(id))),save:async p=>validateProject(await call('/api/projects',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(validateProject(p))}))};
+}
+export function cloudRepository(client){
+ const user=async()=>{const {data,error}=await client.auth.getUser();if(error||!data.user)throw new ProjectError('Войдите в аккаунт для сохранения проектов',401);return data.user.id};
+ return {
+  async list(){const uid=await user(),{data,error}=await client.from('home_planer_projects').select('id,name,revision,updated_at').eq('owner_id',uid).order('updated_at',{ascending:false});if(error)throw remoteError(error);return data.map(row=>({id:row.id,name:row.name,revision:row.revision,updatedAt:row.updated_at}))},
+  async get(id){const uid=await user(),{data,error}=await client.from('home_planer_projects').select('document').eq('owner_id',uid).eq('id',id).maybeSingle();if(error)throw remoteError(error);if(!data)throw new ProjectError('Проект не найден',404);return validateProject(data.document)},
+  async save(input){await user();const p=validateProject(input);if(new TextEncoder().encode(JSON.stringify(p)).length>5242880)throw new ProjectError('Файл слишком большой',413);const {data,error}=await client.rpc('home_planer_save_project',{p_document:p});if(error)throw remoteError(error);return validateProject(data)}
+ };
+}

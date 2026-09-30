@@ -1,0 +1,11 @@
+node_modules/
+dist/
+data/projects/*
+!data/projects/.gitkeep
+.env
+.env.*
+!.env.example
+.vercel/
+.supabase/
+*.log
+.cloud-edit.mjs

@@ -1,0 +1,719 @@
+{
+  "id": "296b8a17-67ae-486b-8424-631db828bd65",
+  "name": "Проверка этапа 5",
+  "schemaVersion": 2,
+  "revision": 3,
+  "createdAt": "2026-09-30T16:01:22.258Z",
+  "updatedAt": "2026-09-30T16:28:23.704Z",
+  "settings": {
+    "unit": "m",
+    "grid": 1,
+    "snap": 0.1
+  },
+  "nodes": {
+    "a347b71e-af01-42dd-817d-811f65e82884": {
+      "x": 0,
+      "y": 0,
+      "id": "a347b71e-af01-42dd-817d-811f65e82884"
+    },
+    "5ed92b0c-7a67-42e1-a2da-52e6d1105a0b": {
+      "x": 30,
+      "y": 0,
+      "id": "5ed92b0c-7a67-42e1-a2da-52e6d1105a0b"
+    },
+    "e4aaab6f-ff63-4802-8280-cd82ffe0fef7": {
+      "x": 30,
+      "y": 20,
+      "id": "e4aaab6f-ff63-4802-8280-cd82ffe0fef7"
+    },
+    "03d00f07-20c6-4204-988a-87e0b39a416e": {
+      "x": 0,
+      "y": 20,
+      "id": "03d00f07-20c6-4204-988a-87e0b39a416e"
+    },
+    "e6c08bbd-7b47-4e52-9434-e7a8c662b692": {
+      "x": 4,
+      "y": 4,
+      "id": "e6c08bbd-7b47-4e52-9434-e7a8c662b692"
+    },
+    "739482a1-9265-483f-b09d-2ac0269d9af1": {
+      "x": 14,
+      "y": 4,
+      "id": "739482a1-9265-483f-b09d-2ac0269d9af1"
+    },
+    "c9c9730f-f82d-42ce-81ef-f89bd8f02b60": {
+      "x": 14,
+      "y": 12,
+      "id": "c9c9730f-f82d-42ce-81ef-f89bd8f02b60"
+    },
+    "ed3cb223-d6b4-42d9-9853-2d36c44dc3c1": {
+      "x": 4,
+      "y": 12,
+      "id": "ed3cb223-d6b4-42d9-9853-2d36c44dc3c1"
+    },
+    "002c4566-50ce-4817-9d2e-bb092a3a0a0b": {
+      "x": 8,
+      "y": 4,
+      "id": "002c4566-50ce-4817-9d2e-bb092a3a0a0b"
+    },
+    "7aa28058-9d65-4098-a035-4606daf9d42d": {
+      "x": 8,
+      "y": 12,
+      "id": "7aa28058-9d65-4098-a035-4606daf9d42d"
+    },
+    "452bf6b1-3aa2-4cbe-b839-417e79841c96": {
+      "x": 5.4,
+      "y": 5.2,
+      "id": "452bf6b1-3aa2-4cbe-b839-417e79841c96"
+    },
+    "bad8bb48-521d-4d55-acf6-170961b96bf4": {
+      "x": 6.8,
+      "y": 7.1,
+      "id": "bad8bb48-521d-4d55-acf6-170961b96bf4"
+    },
+    "da10127d-2611-4e95-89fb-1680bfb21246": {
+      "x": 5.3,
+      "y": 9.4,
+      "id": "da10127d-2611-4e95-89fb-1680bfb21246"
+    },
+    "77741d5c-6f0e-49bb-8d6a-3acde441a583": {
+      "x": 6.9,
+      "y": 10.6,
+      "id": "77741d5c-6f0e-49bb-8d6a-3acde441a583"
+    },
+    "72582991-7e72-4a35-be2b-bbb04c8f5028": {
+      "x": 7,
+      "y": 5.2,
+      "id": "72582991-7e72-4a35-be2b-bbb04c8f5028"
+    },
+    "fba8a500-6a7a-4ae3-ae5f-b654a0560259": {
+      "x": 10.5,
+      "y": 6.8,
+      "id": "fba8a500-6a7a-4ae3-ae5f-b654a0560259"
+    },
+    "896461e0-2a0c-4daf-b97b-8890dcb9858a": {
+      "x": 14,
+      "y": 10,
+      "id": "896461e0-2a0c-4daf-b97b-8890dcb9858a"
+    },
+    "3a62db8a-16f6-4c05-b5dc-2051b08ac497": {
+      "x": 12.5,
+      "y": 11.7,
+      "id": "3a62db8a-16f6-4c05-b5dc-2051b08ac497"
+    },
+    "9a235118-74ea-405e-9e93-e150ca0666ae": {
+      "id": "9a235118-74ea-405e-9e93-e150ca0666ae",
+      "x": 3,
+      "y": 3
+    },
+    "1c786e93-ca4b-4eaf-9979-3989dee2c85e": {
+      "id": "1c786e93-ca4b-4eaf-9979-3989dee2c85e",
+      "x": 3,
+      "y": 4.825
+    },
+    "75abae7c-c4fe-41a3-99ed-19823763c795": {
+      "id": "75abae7c-c4fe-41a3-99ed-19823763c795",
+      "x": 5.026000000000001,
+      "y": 4.825
+    },
+    "0add1400-8739-449d-a205-ea7bede41b6a": {
+      "id": "0add1400-8739-449d-a205-ea7bede41b6a",
+      "x": 3.5,
+      "y": 3
+    },
+    "fd930d93-662b-413d-9e06-1ea1c00572e6": {
+      "id": "fd930d93-662b-413d-9e06-1ea1c00572e6",
+      "x": 3.5,
+      "y": 4.825
+    },
+    "7a29dd37-9f2a-4112-8caa-afeae174b566": {
+      "id": "7a29dd37-9f2a-4112-8caa-afeae174b566",
+      "x": 5.774,
+      "y": 4.825
+    },
+    "d4b7e050-9e24-486f-82ac-4c14a6948f05": {
+      "id": "d4b7e050-9e24-486f-82ac-4c14a6948f05",
+      "x": 3,
+      "y": 13
+    },
+    "6f031431-28cc-4d4b-9ca2-2b96205183aa": {
+      "id": "6f031431-28cc-4d4b-9ca2-2b96205183aa",
+      "x": 3,
+      "y": 5.3875
+    },
+    "29395edf-7f9e-4e3d-9bbd-fff31aadc53b": {
+      "id": "29395edf-7f9e-4e3d-9bbd-fff31aadc53b",
+      "x": 5.4,
+      "y": 5.3875
+    },
+    "f61b8ff2-88f2-43d0-9fa1-346fdd238797": {
+      "id": "f61b8ff2-88f2-43d0-9fa1-346fdd238797",
+      "x": 14,
+      "y": 10
+    },
+    "86d18ce2-a343-43a1-b27c-012c680c600e": {
+      "id": "86d18ce2-a343-43a1-b27c-012c680c600e",
+      "x": 12,
+      "y": 10
+    },
+    "a724750d-f15a-4283-8e32-ec54a45a8109": {
+      "id": "a724750d-f15a-4283-8e32-ec54a45a8109",
+      "x": 12,
+      "y": 6.8
+    },
+    "6f28d962-fa2b-4819-94ee-9efac69d97ea": {
+      "id": "6f28d962-fa2b-4819-94ee-9efac69d97ea",
+      "x": 10.5,
+      "y": 6.8
+    },
+    "53e9b33c-0587-48bd-b6b7-4b5616fd82af": {
+      "id": "53e9b33c-0587-48bd-b6b7-4b5616fd82af",
+      "x": 12.5,
+      "y": 11.7
+    },
+    "eefa24e2-675d-4a86-bb17-7055eb38f568": {
+      "id": "eefa24e2-675d-4a86-bb17-7055eb38f568",
+      "x": 10.5,
+      "y": 11.7
+    },
+    "56a47a8a-8f6e-4bbe-ae5c-c7ab0475daf5": {
+      "id": "56a47a8a-8f6e-4bbe-ae5c-c7ab0475daf5",
+      "x": 10.5,
+      "y": 6.8
+    },
+    "b17740e0-f7de-4ba9-b2bb-ec2a7947961b": {
+      "id": "b17740e0-f7de-4ba9-b2bb-ec2a7947961b",
+      "x": 9.55,
+      "y": 12
+    },
+    "d8463e13-6992-4cd3-832f-321ae91e1494": {
+      "id": "d8463e13-6992-4cd3-832f-321ae91e1494",
+      "x": 9.55,
+      "y": 16
+    },
+    "969be723-6699-48b2-ba55-4c9ea805ed00": {
+      "id": "969be723-6699-48b2-ba55-4c9ea805ed00",
+      "x": 25,
+      "y": 16
+    }
+  },
+  "objects": [
+    {
+      "id": "9c584879-73a0-45e2-a41a-cfff79bf6471",
+      "type": "plot",
+      "name": "Участок",
+      "vertexIds": [
+        "a347b71e-af01-42dd-817d-811f65e82884",
+        "5ed92b0c-7a67-42e1-a2da-52e6d1105a0b",
+        "e4aaab6f-ff63-4802-8280-cd82ffe0fef7",
+        "03d00f07-20c6-4204-988a-87e0b39a416e"
+      ],
+      "shape": "rectangle",
+      "layerId": "plot"
+    },
+    {
+      "id": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "type": "building",
+      "name": "Дом",
+      "vertexIds": [
+        "e6c08bbd-7b47-4e52-9434-e7a8c662b692",
+        "002c4566-50ce-4817-9d2e-bb092a3a0a0b",
+        "739482a1-9265-483f-b09d-2ac0269d9af1",
+        "c9c9730f-f82d-42ce-81ef-f89bd8f02b60",
+        "7aa28058-9d65-4098-a035-4606daf9d42d",
+        "ed3cb223-d6b4-42d9-9853-2d36c44dc3c1"
+      ],
+      "shape": "polygon",
+      "buildingKind": "house",
+      "layerId": "buildings"
+    },
+    {
+      "id": "ceac9a66-0cdf-4a77-98f8-13499383faf7",
+      "type": "wall",
+      "name": "Стена дома 1",
+      "vertexIds": [
+        "e6c08bbd-7b47-4e52-9434-e7a8c662b692",
+        "002c4566-50ce-4817-9d2e-bb092a3a0a0b"
+      ],
+      "thickness": 0.25,
+      "height": 2.8,
+      "wallKind": "external",
+      "buildingId": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "layerId": "walls"
+    },
+    {
+      "id": "335b53f6-0801-4e7b-b618-f72ff11eb955",
+      "type": "wall",
+      "name": "Стена дома 1 (часть 2)",
+      "vertexIds": [
+        "002c4566-50ce-4817-9d2e-bb092a3a0a0b",
+        "739482a1-9265-483f-b09d-2ac0269d9af1"
+      ],
+      "thickness": 0.25,
+      "height": 2.8,
+      "wallKind": "external",
+      "buildingId": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "layerId": "walls"
+    },
+    {
+      "id": "bc26a89c-6842-411e-80c2-73786aa03117",
+      "type": "wall",
+      "name": "Стена дома 2",
+      "vertexIds": [
+        "739482a1-9265-483f-b09d-2ac0269d9af1",
+        "c9c9730f-f82d-42ce-81ef-f89bd8f02b60"
+      ],
+      "thickness": 0.25,
+      "height": 2.8,
+      "wallKind": "external",
+      "buildingId": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "layerId": "walls"
+    },
+    {
+      "id": "357283b4-5755-485d-8162-632c1e92e956",
+      "type": "wall",
+      "name": "Стена дома 3",
+      "vertexIds": [
+        "c9c9730f-f82d-42ce-81ef-f89bd8f02b60",
+        "7aa28058-9d65-4098-a035-4606daf9d42d"
+      ],
+      "thickness": 0.25,
+      "height": 2.8,
+      "wallKind": "external",
+      "buildingId": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "layerId": "walls"
+    },
+    {
+      "id": "2e717af4-83f9-448b-8a05-49d99c964042",
+      "type": "wall",
+      "name": "Стена дома 3 (часть 2)",
+      "vertexIds": [
+        "7aa28058-9d65-4098-a035-4606daf9d42d",
+        "ed3cb223-d6b4-42d9-9853-2d36c44dc3c1"
+      ],
+      "thickness": 0.25,
+      "height": 2.8,
+      "wallKind": "external",
+      "buildingId": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "layerId": "walls"
+    },
+    {
+      "id": "c3dffdc4-68cd-4773-b83d-f945703e396d",
+      "type": "wall",
+      "name": "Стена дома 4",
+      "vertexIds": [
+        "ed3cb223-d6b4-42d9-9853-2d36c44dc3c1",
+        "e6c08bbd-7b47-4e52-9434-e7a8c662b692"
+      ],
+      "thickness": 0.25,
+      "height": 2.8,
+      "wallKind": "external",
+      "buildingId": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "layerId": "walls"
+    },
+    {
+      "id": "05ec83ab-13dc-4f88-8e0a-8d513f7cd3ce",
+      "type": "wall",
+      "name": "Перегородка 1",
+      "vertexIds": [
+        "002c4566-50ce-4817-9d2e-bb092a3a0a0b",
+        "7aa28058-9d65-4098-a035-4606daf9d42d"
+      ],
+      "thickness": 0.12,
+      "height": 2.8,
+      "wallKind": "internal",
+      "buildingId": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "layerId": "walls"
+    },
+    {
+      "id": "43fa7e19-e390-4098-b83c-095b60e62138",
+      "type": "fixture",
+      "kind": "bath-straight",
+      "name": "Прямая ванна",
+      "vertexIds": [
+        "452bf6b1-3aa2-4cbe-b839-417e79841c96"
+      ],
+      "width": 1.7,
+      "depth": 0.75,
+      "rotation": 0,
+      "height": 1,
+      "buildingId": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "layerId": "plumbing"
+    },
+    {
+      "id": "5e2139b9-917f-4c06-ad99-449d0a32abd9",
+      "type": "fixture",
+      "kind": "bath-corner",
+      "name": "Угловая ванна",
+      "vertexIds": [
+        "bad8bb48-521d-4d55-acf6-170961b96bf4"
+      ],
+      "width": 1.4,
+      "depth": 1.4,
+      "rotation": 0,
+      "height": 1,
+      "buildingId": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "layerId": "plumbing"
+    },
+    {
+      "id": "8921c2cc-a718-491b-9d2d-152b51a19783",
+      "type": "fixture",
+      "kind": "bath-round",
+      "name": "Круглая ванна",
+      "vertexIds": [
+        "da10127d-2611-4e95-89fb-1680bfb21246"
+      ],
+      "width": 1.6,
+      "depth": 1.6,
+      "rotation": 0,
+      "height": 1,
+      "buildingId": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "layerId": "plumbing"
+    },
+    {
+      "id": "1e17e86f-d1c2-4709-a6bb-8f7d8cacc5bd",
+      "type": "fixture",
+      "kind": "sink",
+      "name": "Раковина",
+      "vertexIds": [
+        "77741d5c-6f0e-49bb-8d6a-3acde441a583"
+      ],
+      "width": 0.6,
+      "depth": 0.45,
+      "rotation": 0,
+      "height": 1,
+      "buildingId": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "layerId": "plumbing"
+    },
+    {
+      "id": "f3a15fd9-8963-4356-ac79-a3562278c41a",
+      "type": "fixture",
+      "kind": "toilet-floor",
+      "name": "Напольный унитаз",
+      "vertexIds": [
+        "72582991-7e72-4a35-be2b-bbb04c8f5028"
+      ],
+      "width": 0.4,
+      "depth": 0.7,
+      "rotation": 0,
+      "height": 1,
+      "buildingId": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "layerId": "plumbing"
+    },
+    {
+      "id": "572f8e99-c6c0-4637-8718-63c5af15a866",
+      "type": "fixture",
+      "kind": "light-ceiling",
+      "name": "Потолочный светильник",
+      "vertexIds": [
+        "fba8a500-6a7a-4ae3-ae5f-b654a0560259"
+      ],
+      "width": 0.5,
+      "depth": 0.5,
+      "rotation": 0,
+      "height": 0.3,
+      "buildingId": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "layerId": "electrical"
+    },
+    {
+      "id": "f4301bbb-570f-4396-bf7f-9a74c17fde13",
+      "type": "fixture",
+      "kind": "socket-double",
+      "name": "Двойная розетка",
+      "vertexIds": [
+        "896461e0-2a0c-4daf-b97b-8890dcb9858a"
+      ],
+      "width": 0.15,
+      "depth": 0.15,
+      "rotation": 270,
+      "height": 0.3,
+      "buildingId": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "wallMount": {
+        "wallId": "bc26a89c-6842-411e-80c2-73786aa03117",
+        "offset": 6,
+        "side": -1
+      },
+      "layerId": "electrical"
+    },
+    {
+      "id": "f3836da2-63d4-4763-889f-705817ca3c56",
+      "type": "fixture",
+      "kind": "switch-single",
+      "name": "Одноклавишный выключатель",
+      "vertexIds": [
+        "3a62db8a-16f6-4c05-b5dc-2051b08ac497"
+      ],
+      "width": 0.15,
+      "depth": 0.15,
+      "rotation": 0,
+      "height": 0.3,
+      "buildingId": "349488b4-89be-4ef8-8ddc-9f66c1b391c7",
+      "layerId": "electrical"
+    },
+    {
+      "id": "2033f2f4-5923-438d-a0db-d4ca8930fba0",
+      "type": "pipe",
+      "kind": "cold",
+      "name": "Подача холодной воды",
+      "vertexIds": [
+        "9a235118-74ea-405e-9e93-e150ca0666ae",
+        "1c786e93-ca4b-4eaf-9979-3989dee2c85e",
+        "75abae7c-c4fe-41a3-99ed-19823763c795"
+      ],
+      "diameter": 0.025,
+      "connections": [
+        {
+          "nodeId": "75abae7c-c4fe-41a3-99ed-19823763c795",
+          "fixtureId": "43fa7e19-e390-4098-b83c-095b60e62138",
+          "portId": "cold"
+        }
+      ],
+      "layerId": "pipes"
+    },
+    {
+      "id": "667be91f-261d-4b81-b577-58c7145e1b4a",
+      "type": "pipe",
+      "kind": "hot",
+      "name": "Подача горячей воды",
+      "vertexIds": [
+        "0add1400-8739-449d-a205-ea7bede41b6a",
+        "fd930d93-662b-413d-9e06-1ea1c00572e6",
+        "7a29dd37-9f2a-4112-8caa-afeae174b566"
+      ],
+      "diameter": 0.025,
+      "connections": [
+        {
+          "nodeId": "7a29dd37-9f2a-4112-8caa-afeae174b566",
+          "fixtureId": "43fa7e19-e390-4098-b83c-095b60e62138",
+          "portId": "hot"
+        }
+      ],
+      "layerId": "pipes"
+    },
+    {
+      "id": "02eca2c7-2219-429c-913b-68fd859fdd44",
+      "type": "pipe",
+      "kind": "drain",
+      "name": "Слив ванны",
+      "vertexIds": [
+        "d4b7e050-9e24-486f-82ac-4c14a6948f05",
+        "6f031431-28cc-4d4b-9ca2-2b96205183aa",
+        "29395edf-7f9e-4e3d-9bbd-fff31aadc53b"
+      ],
+      "diameter": 0.025,
+      "connections": [
+        {
+          "nodeId": "29395edf-7f9e-4e3d-9bbd-fff31aadc53b",
+          "fixtureId": "43fa7e19-e390-4098-b83c-095b60e62138",
+          "portId": "drain"
+        }
+      ],
+      "layerId": "pipes"
+    },
+    {
+      "id": "508ec32e-c3ce-4948-a243-e3d9e76e72d6",
+      "type": "wire",
+      "kind": "main",
+      "name": "Основной провод",
+      "vertexIds": [
+        "f61b8ff2-88f2-43d0-9fa1-346fdd238797",
+        "86d18ce2-a343-43a1-b27c-012c680c600e",
+        "a724750d-f15a-4283-8e32-ec54a45a8109",
+        "6f28d962-fa2b-4819-94ee-9efac69d97ea"
+      ],
+      "connections": [
+        {
+          "nodeId": "f61b8ff2-88f2-43d0-9fa1-346fdd238797",
+          "fixtureId": "f4301bbb-570f-4396-bf7f-9a74c17fde13",
+          "portId": "power"
+        },
+        {
+          "nodeId": "6f28d962-fa2b-4819-94ee-9efac69d97ea",
+          "fixtureId": "572f8e99-c6c0-4637-8718-63c5af15a866",
+          "portId": "power"
+        }
+      ],
+      "layerId": "wires"
+    },
+    {
+      "id": "194849ef-3aa7-4368-a354-c7c5129a2ad3",
+      "type": "wire",
+      "kind": "secondary",
+      "name": "Провод выключателя",
+      "vertexIds": [
+        "53e9b33c-0587-48bd-b6b7-4b5616fd82af",
+        "eefa24e2-675d-4a86-bb17-7055eb38f568",
+        "56a47a8a-8f6e-4bbe-ae5c-c7ab0475daf5"
+      ],
+      "connections": [
+        {
+          "nodeId": "53e9b33c-0587-48bd-b6b7-4b5616fd82af",
+          "fixtureId": "f3836da2-63d4-4763-889f-705817ca3c56",
+          "portId": "power"
+        },
+        {
+          "nodeId": "56a47a8a-8f6e-4bbe-ae5c-c7ab0475daf5",
+          "fixtureId": "572f8e99-c6c0-4637-8718-63c5af15a866",
+          "portId": "power"
+        }
+      ],
+      "layerId": "wires"
+    },
+    {
+      "id": "0c78fd99-74c9-4541-97ba-e0be38cbdb4a",
+      "type": "path",
+      "name": "Дорожка к дому",
+      "vertexIds": [
+        "b17740e0-f7de-4ba9-b2bb-ec2a7947961b",
+        "d8463e13-6992-4cd3-832f-321ae91e1494",
+        "969be723-6699-48b2-ba55-4c9ea805ed00"
+      ],
+      "width": 1,
+      "material": "Плитка",
+      "layerId": "paths"
+    }
+  ],
+  "openings": [
+    {
+      "id": "338e00a2-6bdf-496b-9f98-232f2983ea8c",
+      "wallId": "ceac9a66-0cdf-4a77-98f8-13499383faf7",
+      "type": "window",
+      "name": "Окно 1",
+      "offset": 2,
+      "width": 1.5,
+      "anchor": "start",
+      "height": 1.4,
+      "sill": 0.9,
+      "hinge": "start",
+      "side": 1,
+      "kind": "double",
+      "layerId": "openings"
+    },
+    {
+      "id": "f7b1c791-bd01-4219-82e9-28c10d5ab413",
+      "wallId": "335b53f6-0801-4e7b-b618-f72ff11eb955",
+      "type": "window",
+      "name": "Окно 2",
+      "offset": 2,
+      "width": 1.5,
+      "anchor": "start",
+      "height": 1.4,
+      "sill": 0.9,
+      "hinge": "start",
+      "side": 1,
+      "kind": "double",
+      "layerId": "openings"
+    },
+    {
+      "id": "ac30913a-aa40-4fd4-b1bf-8f90a0c01091",
+      "wallId": "357283b4-5755-485d-8162-632c1e92e956",
+      "type": "door",
+      "name": "Входная дверь",
+      "offset": 4,
+      "width": 0.9,
+      "anchor": "start",
+      "height": 2.1,
+      "hinge": "start",
+      "side": 1,
+      "kind": "single",
+      "layerId": "openings"
+    },
+    {
+      "id": "945a81f9-c10f-4994-9ef7-b2baf3bc89a9",
+      "wallId": "bc26a89c-6842-411e-80c2-73786aa03117",
+      "type": "window",
+      "name": "Панорамное окно",
+      "offset": 3,
+      "width": 2.4,
+      "anchor": "start",
+      "height": 1.4,
+      "sill": 0.9,
+      "hinge": "start",
+      "side": 1,
+      "kind": "panoramic",
+      "layerId": "openings"
+    },
+    {
+      "id": "a7f405cb-0f04-4ccd-8984-1ab81814a65d",
+      "wallId": "05ec83ab-13dc-4f88-8e0a-8d513f7cd3ce",
+      "type": "door",
+      "name": "Межкомнатная дверь",
+      "offset": 4,
+      "width": 0.9,
+      "anchor": "start",
+      "height": 2.1,
+      "hinge": "start",
+      "side": 1,
+      "kind": "single",
+      "layerId": "openings"
+    }
+  ],
+  "layers": [
+    {
+      "id": "plot",
+      "name": "Участок",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "buildings",
+      "name": "Постройки",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "walls",
+      "name": "Стены",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "openings",
+      "name": "Окна и двери",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "plumbing",
+      "name": "Сантехника",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "pipes",
+      "name": "Трубы",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "electrical",
+      "name": "Электрические предметы",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "wires",
+      "name": "Провода",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "paths",
+      "name": "Дорожки",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "dimensions",
+      "name": "Размеры",
+      "visible": true,
+      "locked": false
+    },
+    {
+      "id": "labels",
+      "name": "Подписи",
+      "visible": true,
+      "locked": false
+    }
+  ]
+}

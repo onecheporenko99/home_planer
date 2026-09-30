@@ -1,0 +1,11 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtemp,readFile,rm} from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import {freshProject,area,zoomAt,screenToWorld,pushHistory,undo,redo,validateProject} from '../src/core.mjs';
+import {storage} from '../server/storage.mjs';
+test('Площадь в мировых единицах и масштаб у курсора',()=>{assert.equal(area([{x:0,y:0},{x:20,y:0},{x:20,y:30},{x:0,y:30}]),600);const c={x:40,y:90,scale:25},p={x:255,y:333};const before=screenToWorld(p,c),after=screenToWorld(p,zoomAt(c,p,2));assert.deepEqual(before,after)});
+test('История восстанавливает жест и очищает повтор после новой команды',()=>{let h={past:[],present:1,future:[]};h=pushHistory(h,2);h=pushHistory(h,3);assert.equal(undo(h).present,2);assert.equal(redo(undo(h)).present,3);assert.deepEqual(pushHistory(undo(h),4).future,[])});
+test('Сохранение, резервная копия, конфликт ревизий, защита путей',async()=>{const root=await mkdtemp(path.join(os.tmpdir(),'home-planer-test-'));try{const db=storage(root),p=freshProject(),saved=await db.save(p);assert.equal(saved.revision,1);assert.equal((await db.get(p.id)).name,p.name);await assert.rejects(db.save({...p,name:'Другое устройство'}),e=>e.status===409);const next=await db.save({...saved,name:'Изменённый проект'});assert.equal(next.revision,2);assert.equal(JSON.parse(await readFile(path.join(root,p.id+'.json.bak'),'utf8')).revision,1);await assert.rejects(db.get('../escape'));assert.equal((await db.list()).length,1)}finally{await rm(root,{recursive:true,force:true})}});
+test('Неверные числа и повторяющиеся ID не принимаются',()=>{const p=freshProject();p.objects=[{id:'a',type:'outline',name:'Контур',vertices:[{x:0,y:0},{x:1,y:0},{x:0,y:Infinity}]}];assert.throws(()=>validateProject(p));p.objects[0].vertices[2].y=1;p.objects.push(p.objects[0]);assert.throws(()=>validateProject(p))});

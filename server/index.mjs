@@ -1,0 +1,13 @@
+import http from 'node:http';
+import path from 'node:path';
+import os from 'node:os';
+import {fileURLToPath} from 'node:url';
+import {createServer} from 'vite';
+import {storage} from './storage.mjs';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const db=storage(path.join(root,'data','projects'));
+const vite=await createServer({root,server:{middlewareMode:true,watch:{ignored:['**/data/**','**/examples/**','**/editor-stage*.jpg']}},appType:'spa'});
+let queue=Promise.resolve();
+const server=http.createServer(async(req,res)=>{const url=new URL(req.url,'http://localhost');if(!url.pathname.startsWith('/api/'))return vite.middlewares(req,res);res.setHeader('Content-Type','application/json; charset=utf-8');try{let result;if(req.method==='GET'&&url.pathname==='/api/projects')result=await db.list();else if(req.method==='GET'&&url.pathname.startsWith('/api/projects/'))result=await db.get(url.pathname.slice(14));else if(req.method==='POST'&&url.pathname==='/api/projects'){let body='';for await(const chunk of req){body+=chunk;if(Buffer.byteLength(body)>5*1024*1024){const e=Error('Файл слишком большой');e.status=413;throw e}}const p=JSON.parse(body);const job=queue.then(()=>db.save(p));queue=job.catch(()=>{});result=await job;}else{res.statusCode=404;result={error:'Не найдено'}}res.end(JSON.stringify(result));}catch(e){res.statusCode=e.status??(e.code==='ENOENT'?404:400);res.end(JSON.stringify({error:e.message}))}});
+server.on('error',async e=>{console.error(e.code==='EADDRINUSE'?'Порт 3000 занят. Запустите с PORT=3001; чужой процесс не остановлен.':e);await vite.close();process.exit(1)});
+const port=Number(process.env.PORT||3000);server.listen(port,'0.0.0.0',()=>{console.log(`Home Planer: http://localhost:${port}`);for(const list of Object.values(os.networkInterfaces()))for(const i of list??[])if(i.family==='IPv4'&&!i.internal)console.log(`Домашняя сеть: http://${i.address}:${port}`)});
