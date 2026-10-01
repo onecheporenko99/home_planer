@@ -1,0 +1,74 @@
+-- Phase 2 stage 4: v6 rooms and measurements; preserve v2-v5 clients.
+begin;
+-- Snapshot before changing constraints/RPC, never overwritten on rerun.
+create table if not exists public.home_planer_phase2_stage4_backup as select *, now() as backed_up_at from public.home_planer_projects;
+alter table public.home_planer_phase2_stage4_backup enable row level security;
+revoke all on public.home_planer_phase2_stage4_backup from public, anon, authenticated;
+do $$ declare c record; begin
+ for c in select conname from pg_constraint where conrelid='public.home_planer_projects'::regclass and contype='c' and pg_get_constraintdef(oid) like '%schemaVersion%'
+ loop execute format('alter table public.home_planer_projects drop constraint %I',c.conname); end loop;
+end $$;
+alter table public.home_planer_projects add constraint home_planer_supported_schemas check ((document->>'schemaVersion')::integer in (2,3,4,5,6));
+create or replace function public.home_planer_save_project(p_document jsonb)
+returns jsonb language plpgsql security definer set search_path = '' as $$
+declare
+ v_owner uuid := auth.uid();
+ v_id text := p_document->>'id';
+ v_revision bigint;
+ v_old public.home_planer_projects%rowtype;
+ v_next jsonb;
+ v_time timestamptz := now();
+begin
+ if v_owner is null then raise exception 'Требуется вход' using errcode = '42501'; end if;
+ if p_document is null or jsonb_typeof(p_document) <> 'object' or octet_length(p_document::text) > 5242880
+ or v_id is null or v_id !~ '^[a-zA-Z0-9-]{1,80}$'
+ or jsonb_typeof(p_document->'name') is distinct from 'string' or char_length(p_document->>'name') > 200
+ or coalesce(p_document->>'schemaVersion','') not in ('2','3','4','5','6')
+ or jsonb_typeof(p_document->'nodes') is distinct from 'object'
+ or jsonb_typeof(p_document->'objects') is distinct from 'array'
+ or jsonb_typeof(p_document->'openings') is distinct from 'array'
+ or jsonb_typeof(p_document->'layers') is distinct from 'array'
+ or jsonb_typeof(p_document->'settings') is distinct from 'object'
+ or jsonb_typeof(p_document->'revision') is distinct from 'number'
+ or p_document->>'revision' !~ '^[0-9]+$'
+ then raise exception 'Некорректный проект' using errcode = '22023'; end if;
+ v_revision := (p_document->>'revision')::bigint;
+ if v_revision < 0 or v_revision >= 9007199254740991
+ or jsonb_array_length(p_document->'objects') > 10000
+ or jsonb_array_length(p_document->'openings') > 10000
+ or jsonb_array_length(p_document->'layers') <> (case when p_document->>'schemaVersion'='6' then 15 when p_document->>'schemaVersion'='5' then 14 when p_document->>'schemaVersion'='4' then 13 else 11 end)
+ then raise exception 'Некорректный размер проекта' using errcode = '22023'; end if;
+
+ if p_document->>'schemaVersion' in ('5','6') then
+  if jsonb_typeof(p_document->'resources') is distinct from 'array' or jsonb_typeof(p_document->'underlays') is distinct from 'array' then raise exception 'Некорректные ресурсы' using errcode='22023';end if;
+  if jsonb_array_length(p_document->'resources')>200 or jsonb_array_length(p_document->'underlays')>100 then raise exception 'Слишком много ресурсов' using errcode='22023';end if;
+  if exists(select 1 from jsonb_array_elements(p_document->'resources') r where coalesce(r->>'id','') !~ '^[a-f0-9]{64}$' or r->>'sha256' is distinct from r->>'id' or not exists(select 1 from storage.objects o where o.bucket_id='home-planer-assets' and o.name=v_owner::text||'/'||(r->>'id'))) then raise exception 'Файл ресурса не загружен или принадлежит другому пользователю' using errcode='22023';end if;
+ end if;
+ if p_document->>'schemaVersion'='6' then
+  if jsonb_typeof(p_document->'rooms') is distinct from 'array' or jsonb_typeof(p_document->'dimensionChains') is distinct from 'array' or jsonb_typeof(p_document->'settings'->'measurements') is distinct from 'object' then raise exception 'Некорректные комнаты и измерения' using errcode='22023';end if;
+  if jsonb_array_length(p_document->'rooms')>1000 or jsonb_array_length(p_document->'dimensionChains')>1000 then raise exception 'Слишком много комнат или размеров' using errcode='22023';end if;
+  if exists(select 1 from jsonb_array_elements(p_document->'rooms') r where coalesce(r->>'id','') !~ '^[a-zA-Z0-9-]{1,80}$' or jsonb_typeof(r->'name') is distinct from 'string' or char_length(r->>'name')>200 or jsonb_typeof(r->'purpose') is distinct from 'string' or coalesce(r->>'fill','') !~ '^#[a-fA-F0-9]{6}$' or jsonb_typeof(r->'active') is distinct from 'boolean' or jsonb_typeof(r->'boundary') is distinct from 'array' or jsonb_typeof(r->'holes') is distinct from 'array') then raise exception 'Некорректная комната' using errcode='22023';end if;
+  if exists(select 1 from jsonb_array_elements(p_document->'rooms') r group by r->>'id' having count(*)>1) then raise exception 'Повторяющиеся ID комнат' using errcode='22023';end if;
+  if exists(select 1 from jsonb_array_elements(p_document->'rooms') r cross join lateral jsonb_array_elements(r->'boundary') e where r->>'active'='true' and not exists(select 1 from jsonb_array_elements(p_document->'objects') o where o->>'id'=e->>'wallId' and o->>'type'='wall')) then raise exception 'Не найдена стена комнаты' using errcode='22023';end if;
+ end if;
+ -- Serializes concurrent first saves as well as updates for this owner/project.
+ perform pg_advisory_xact_lock(hashtextextended(v_owner::text || ':' || v_id, 0));
+ select * into v_old from public.home_planer_projects where owner_id = v_owner and id = v_id for update;
+ if coalesce(v_old.revision, 0) <> v_revision then
+  raise exception 'Проект изменён на другом устройстве' using errcode = 'P0001', detail = 'revision_conflict';
+ end if;
+ if coalesce((v_old.document->>'schemaVersion')::integer,2) > (p_document->>'schemaVersion')::integer then
+  raise exception 'Старый клиент не может перезаписать расширенный проект' using errcode='P0001', detail='schema_conflict';
+ end if;
+ v_next := p_document || jsonb_build_object('revision',v_revision+1,'updatedAt',v_time,
+  'createdAt',coalesce(v_old.created_at,v_time));
+ insert into public.home_planer_projects (owner_id,id,name,revision,document,previous_document,created_at,updated_at)
+ values (v_owner,v_id,p_document->>'name',v_revision+1,v_next,v_old.document,coalesce(v_old.created_at,v_time),v_time)
+ on conflict (owner_id,id) do update set name=excluded.name,revision=excluded.revision,
+ document=excluded.document,previous_document=excluded.previous_document,updated_at=excluded.updated_at;
+ return v_next;
+end;
+$$;
+revoke all on function public.home_planer_save_project(jsonb) from public, anon;
+grant execute on function public.home_planer_save_project(jsonb) to authenticated;
+commit;

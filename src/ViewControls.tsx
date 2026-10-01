@@ -1,0 +1,8 @@
+import {useRef,useState} from 'react';
+import type {Camera,Project} from './types';
+import {Numeric} from './Properties';
+export function ViewControls({project,camera,setCamera,onCommit,fitSelected}:{project:Project;camera:Camera;setCamera:(camera:Camera)=>void;onCommit:(project:Project)=>void;fitSelected:()=>void}){
+ const previous=useRef<Camera|null>(null),[name,setName]=useState('Мой вид');
+ const change=(next:Camera)=>{previous.current=camera;setCamera(next)};
+ return <details><summary>Рабочая область и виды</summary><Numeric label="Поворот только вида, °" value={camera.rotation??0} onApply={n=>change({...camera,rotation:n})}/><p className="hint">Поворот вида не меняет координаты объектов и размеры.</p><button onClick={()=>{previous.current=camera;fitSelected()}}>Показать выделенное</button><button onClick={()=>{if(previous.current){const saved=previous.current;previous.current=camera;setCamera(saved)}}}>Предыдущий вид</button><label>Название вида<input value={name} maxLength={80} onChange={e=>setName(e.target.value)}/></label><button onClick={()=>{if(name.trim())onCommit({...project,schemaVersion:Math.max(project.schemaVersion,3) as 3|4,settings:{...project.settings,savedViews:[...(project.settings.savedViews??[]),{id:crypto.randomUUID(),name:name.trim(),camera:{...camera}}]}})}}>Сохранить вид</button>{project.settings.savedViews?.map(view=><div className="fields" key={view.id}><button onClick={()=>change(view.camera)}>{view.name}</button><button onClick={()=>onCommit({...project,settings:{...project.settings,savedViews:project.settings.savedViews?.filter(v=>v.id!==view.id)}})}>Удалить вид</button></div>)}</details>;
+}

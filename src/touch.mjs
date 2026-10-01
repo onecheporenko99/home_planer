@@ -9,7 +9,7 @@ export function touchMove(s,id,p){
  if(!s.multi)return s.pending&&Math.hypot(p.x-s.pending.x,p.y-s.pending.y)>5?'drag':null;
  if(s.points.size<2||!s.baseline)return null;
  const ps=pair(s),mid=center(ps),b=s.baseline,c=b.camera,scale=Math.max(3,Math.min(400,c.scale*span(ps)/b.span));
- return {scale,x:mid.x-(b.center.x-c.x)/c.scale*scale,y:mid.y-(b.center.y-c.y)/c.scale*scale};
+ return {...c,scale,x:mid.x-(b.center.x-c.x)/c.scale*scale,y:mid.y-(b.center.y-c.y)/c.scale*scale};
 }
 export function touchEnd(s,id,camera,cancel=false){
  const multi=s.multi;s.points.delete(id);

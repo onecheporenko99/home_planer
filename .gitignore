@@ -9,3 +9,18 @@ data/projects/*
 .supabase/
 *.log
 .cloud-edit.mjs
+data/backups/
+
+data/resources/
+.npm-cache/
+
+public/pdfjs/
+/tmp/sql-validation/
+
+# Local acceptance artifacts and screenshots are not application source.
+/tmp/
+/output/
+/phase2-*.png
+/domain-restored.png
+/supabase-deployment-check.png
+/vercel-deployment.png

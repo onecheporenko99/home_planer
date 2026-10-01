@@ -1,0 +1,37 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';
+import {readFile,mkdtemp,writeFile,rm} from 'node:fs/promises';import os from 'node:os';import path from 'node:path';
+import {createHash} from 'node:crypto';
+import {freshProject,validateProject,pushHistory,undo,redo,distance} from '../src/core.mjs';
+import {addUnderlay,calibrateUnderlay,cropUnderlay,imageToWorld,worldToImage,underlayCorners} from '../src/underlays.mjs';
+import {resourceStorage,inspectResource} from '../server/resources.mjs';import {storage} from '../server/storage.mjs';
+import {createGeometry} from '../src/geometry.mjs';import {assertLayerEdits,snapProject} from '../src/layers.mjs';
+import {editStyle} from '../src/appearance.mjs';import {exportBounds} from '../src/export-plan.mjs';
+import {contourEdgeToArc} from '../src/curved-walls.mjs';
+import {editJointAngle} from '../src/wall-editing.mjs';
+const bytes=await readFile(new URL('./fixtures/underlays/plan.png',import.meta.url));
+const id=createHash('sha256').update(bytes).digest('hex'),resource={id,sha256:id,name:'plan.png',mimeType:'image/png',byteLength:bytes.length,width:600,height:400};
+const make=()=>validateProject(addUnderlay(freshProject(),[resource]));
+test('Обрезка и восстановление страницы сохраняют мировое положение точек на повёрнутой калиброванной подложке',()=>{
+ let p=make();p.underlays[0].angle=30;p=calibrateUnderlay(p,p.underlays[0].id,{x:100,y:300},{x:500,y:300},5);
+ const u=p.underlays[0],point={x:400,y:250},original=imageToWorld(u,point);
+ const cropped=validateProject(cropUnderlay(p,u.id,{x:80,y:60,width:500,height:320}));
+ assert.ok(distance(imageToWorld(cropped.underlays[0],point),original)<1e-10);assert.deepEqual(cropped.underlays[0].calibration,u.calibration);
+ const restored=validateProject(cropUnderlay(cropped,u.id,{x:0,y:0,width:600,height:400}));assert.ok(distance(imageToWorld(restored.underlays[0],point),original)<1e-10);
+});
+test('Добавление подложки и оформление сохраняют кривые грани и ограничения углов v3',()=>{
+ const contour=createGeometry(freshProject(),{type:'outline',name:'Контур'},[{x:0,y:0},{x:4,y:0},{x:4,y:4},{x:0,y:4}],'polygon').project;
+ const curved=contourEdgeToArc(contour,contour.objects[0].id,0,90);
+ const v4=editStyle(curved,[],'stroke','#337e9b');validateProject(v4);
+ const v5=validateProject(addUnderlay(v4,[resource]));assert.deepEqual(v5.objects[0].boundaryWallIds,curved.objects[0].boundaryWallIds);
+ const walls=createGeometry(freshProject(),{type:'wall',name:'Стык',thickness:.2},[{x:0,y:0},{x:2,y:0},{x:2,y:2}],'wall');
+ const constrained=editJointAngle(walls.project,walls.ids,60,walls.ids[1],1,true),p=validateProject(addUnderlay(constrained,[resource]));
+ assert.deepEqual(p.jointConstraints,constrained.jointConstraints);validateProject(editStyle(p,[],'stroke','#337e9b'));
+});
+test('Калибровка 400 px = 5 м сохраняет первую опору; обычная стена по отрезку имеет длину 5 м',()=>{let p=make(),u=p.underlays[0];u.x=4;u.y=-2;u.angle=30;const a={x:100,y:300},b={x:500,y:300},anchor=imageToWorld(u,a),original=structuredClone(p);p=validateProject(calibrateUnderlay(p,u.id,a,b,5));u=p.underlays[0];assert.ok(distance(imageToWorld(u,a),anchor)<1e-10);assert.ok(Math.abs(distance(imageToWorld(u,a),imageToWorld(u,b))-5)<1e-10);const wall=createGeometry(p,{type:'wall',name:'Стена по подложке',thickness:.2},[imageToWorld(u,a),imageToWorld(u,b)],'wall');validateProject(wall.project);assert.ok(Math.abs(distance(...wall.project.objects[0].vertexIds.map(id=>wall.project.nodes[id]))-5)<1e-10);assert.ok(distance(worldToImage(u,imageToWorld(u,a)),a)<1e-10);assert.equal(original.underlays[0].calibration,undefined)});
+test('Подложка не участвует в привязках и физических объектах; экспорт учитывает обрезку и поворот',()=>{const p=make();assert.equal(snapProject(p).objects.length,0);assert.equal(p.objects.length,0);p.underlays[0].crop={x:100,y:100,width:300,height:200};p.underlays[0].angle=90;validateProject(p);const corners=underlayCorners(p.underlays[0]),b=exportBounds(p,40,0);assert.ok(b.width>3);assert.ok(corners.every(n=>n.x>=b.x-1e-9&&n.x<=b.x+b.width+1e-9));const hidden={...p,layers:p.layers.map(l=>l.id==='underlays'?{...l,visible:false}:l)};assert.throws(()=>exportBounds(hidden),/геометрии/)});
+test('Удаление подложки отменяется; файл и калибровка переживают историю и повторное открытие',async()=>{
+ const p=make(),calibrated=validateProject(calibrateUnderlay(p,p.underlays[0].id,{x:100,y:300},{x:500,y:300},5)),deleted={...calibrated,underlays:[]},h=pushHistory({past:[],present:calibrated,future:[]},deleted);assert.equal(undo(h).present.underlays[0].metersPerPixel,.0125);assert.equal(redo(undo(h)).present.underlays.length,0);assert.deepEqual(deleted.resources,calibrated.resources);
+ const folder=await mkdtemp(path.join(os.tmpdir(),'home-underlay-save-'));try{const assets=resourceStorage(path.join(folder,'assets')),r=await assets.put(bytes,'image/png','plan.png'),db=storage(path.join(folder,'projects')),saved=await db.save(calibrated),opened=await db.get(saved.id);assert.deepEqual(opened.underlays,JSON.parse(JSON.stringify(saved.underlays)));await db.save({...opened,underlays:[]});assert.equal((await assets.get(r.id)).bytes.length,bytes.length)}finally{await rm(folder,{recursive:true,force:true})}});
+test('Блокировка слоя/подложки защищает геометрию и удаление; разблокировка разрешена',()=>{const p=make();p.underlays[0].locked=true;assert.throws(()=>assertLayerEdits(p,{...p,underlays:[]}),/заблокирована/);assert.throws(()=>assertLayerEdits(p,{...p,underlays:[{...p.underlays[0],x:2}]}),/заблокирована/);assert.doesNotThrow(()=>assertLayerEdits(p,{...p,underlays:[{...p.underlays[0],locked:false}]}));const layer={...p,layers:p.layers.map(l=>l.id==='underlays'?{...l,locked:true}:l)};assert.throws(()=>assertLayerEdits(layer,{...layer,underlays:[{...p.underlays[0],angle:30}]}),/заблокирована/)});
+test('Стили после добавления подложки сохраняют v5; v2/v3/v4 остаются читаемыми',()=>{const p=make(),styled=validateProject(editStyle(p,[],'stroke','#337e9b'));assert.equal(styled.schemaVersion,5);assert.equal(styled.layers.length,14);assert.deepEqual(styled.underlays,p.underlays);assert.equal(validateProject(freshProject()).schemaVersion,2);assert.throws(()=>validateProject({...p,schemaVersion:4}),/слои|v5/);assert.throws(()=>validateProject({...p,underlays:[{...p.underlays[0],crop:{x:590,y:0,width:20,height:100}}]}),/Обрезка/);assert.throws(()=>calibrateUnderlay(p,p.underlays[0].id,{x:1,y:1},{x:1,y:1},5),/разные/)});
+test('Локальное хранилище принимает JPG/PNG/WEBP/PDF и проверяет сигнатуры, размер, SHA и пути',async()=>{const root=await mkdtemp(path.join(os.tmpdir(),'home-assets-'));try{const assets=resourceStorage(root);for(const [ext,mime] of [['png','image/png'],['jpg','image/jpeg'],['webp','image/webp'],['pdf','application/pdf']]){const data=await readFile(new URL('./fixtures/underlays/plan.'+ext,import.meta.url)),r=await assets.put(data,mime,'plan.'+ext);assert.deepEqual((await assets.get(r.id)).bytes,data);if(ext!=='pdf')assert.equal(r.width,600);assert.equal((await assets.put(data,mime,'another.'+ext)).id,r.id)}assert.throws(()=>inspectResource(bytes,'image/jpeg'),/повреждён/);assert.throws(()=>inspectResource(Buffer.alloc(21*1024*1024),'image/png'),/20 МБ/);await assert.rejects(assets.get('../secret'),/ID/);await writeFile(path.join(root,id+'.bin'),'corruption');await assert.rejects(assets.get(id),/Контрольная|контрольная/)}finally{await rm(root,{recursive:true,force:true})}});

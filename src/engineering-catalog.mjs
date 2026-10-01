@@ -3,6 +3,8 @@ const water=[{id:'cold',name:'Холодная вода',x:-.22,y:-.5,system:'co
 const electric=[{id:'power',name:'Электропитание',x:0,y:0,system:'electric'}];
 const fixture=(kind,name,width,depth,symbol,ports=water,category='plumbing')=>({kind,name,width,depth,symbol,ports,category});
 export const fixtures=[
+ ...[['bed-single','Односпальная кровать',.9,2,'bed'],['bed-double','Двуспальная кровать',1.6,2,'bed'],['sofa','Диван',2.2,.9,'sofa'],['sofa-corner','Угловой диван',2.5,1.6,'sofa-corner'],['wardrobe','Шкаф',1.8,.6,'wardrobe'],['table','Обеденный стол',1.4,.8,'table'],['table-round','Круглый стол',1,1,'round-table'],['chair','Стул',.45,.45,'chair'],['desk','Рабочий стол',1.2,.6,'desk'],['fridge','Холодильник',.6,.65,'fridge'],['stove','Плита',.6,.6,'stove'],['kitchen','Кухонный модуль',.6,.6,'kitchen'],['worktop','Рабочая поверхность',1.8,.6,'worktop']].map(([k,n,w,d,s])=>({...fixture(k,n,w,d,s,[],'furniture'),height:k.startsWith('bed')?.5:k==='wardrobe'?2.2:k==='fridge'?1.8:k==='chair'?.45:k==='sofa'||k==='sofa-corner'?.85:k==='kitchen'||k==='worktop'||k==='stove'?.9:.75})),
+
  fixture('bath-straight','Прямая ванна',1.7,.75,'bath'),fixture('bath-corner','Угловая ванна',1.4,1.4,'corner-bath'),fixture('bath-round','Круглая ванна',1.6,1.6,'round-bath'),
  fixture('shower-box','Прямоугольный душ',.9,.9,'shower'),fixture('shower-corner','Угловой душ',.9,.9,'corner-shower'),fixture('shower-round','Круглый душ',1,1,'round-shower'),
  fixture('toilet-floor','Напольный унитаз',.4,.7,'toilet',[water[0],water[2]]),fixture('toilet-wall','Подвесной унитаз',.38,.55,'wall-toilet',[water[0],water[2]]),
@@ -14,5 +16,5 @@ export const fixtures=[
  fixture('light-ceiling','Потолочный светильник',.5,.5,'light',electric,'electrical'),fixture('light-spot','Точечный светильник',.12,.12,'spot',electric,'electrical'),fixture('light-wall','Настенный светильник',.25,.15,'wall-light',electric,'electrical'),fixture('light-outdoor','Наружный светильник',.3,.3,'outdoor-light',electric,'electrical'),fixture('light-linear','Линейное освещение',1.2,.1,'linear-light',electric,'electrical')
 ];
 export const routeKinds=[{kind:'cold',name:'Холодная вода',type:'pipe',color:'#337e9b',dash:''},{kind:'hot',name:'Горячая вода',type:'pipe',color:'#ba6545',dash:'8 3'},{kind:'drain',name:'Канализация',type:'pipe',color:'#655d53',dash:'10 3 2 3'},{kind:'heating',name:'Отопление',type:'pipe',color:'#aa7739',dash:'5 3'},{kind:'other',name:'Прочая труба',type:'pipe',color:'#58766d',dash:'2 3'},{kind:'main',name:'Основной провод',type:'wire',color:'#986b16',dash:''},{kind:'secondary',name:'Второстепенный провод',type:'wire',color:'#67727d',dash:'6 4'}];
-export const fixtureDefinition=kind=>fixtures.find(f=>f.kind===kind);
+export const fixtureDefinition=kind=>kind==='custom'?{kind,name:'Свой предмет',width:1,depth:1,symbol:'custom',ports:[],category:'furniture'}:fixtures.find(f=>f.kind===kind);
 export const isRoute=o=>o.type==='pipe'||o.type==='wire'||o.type==='path'&&o.shape!=='polygon';
